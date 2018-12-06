@@ -1,6 +1,7 @@
-var express = require('express'),
-    User = require('../models/user');
-var router = express.Router();
+const express = require('express');
+const User = require('../models/user');
+const router = express.Router();
+const catchErrors = require('../lib/async-error');
 
 function needAuth(req, res, next) {
     if (req.session.user) {
@@ -119,35 +120,31 @@ router.get('/:id', (req, res, next) => {
   });
 });
 
-router.post('/', (req, res, next) => {
+router.get('/:id', catchErrors(async (req, res, next) => {
+  const user = await User.findById(req.params.id);
+  res.render('users/show', {user: user});
+}));
+
+router.post('/', catchErrors(async (req, res, next) => {
   var err = validateForm(req.body, {needPassword: true});
   if (err) {
     req.flash('danger', err);
     return res.redirect('back');
   }
-  User.findOne({email: req.body.email}, function(err, user) {
-    if (err) {
-      return next(err);
-    }
-    if (user) {
-      req.flash('danger', 'Email address already exists.');
-      return res.redirect('back');
-    }
-    var newUser = new User({
-      name: req.body.name,
-      email: req.body.email,
-    });
-    newUser.password = req.body.password;
-
-    newUser.save(function(err) {
-      if (err) {
-        return next(err);
-      } else {
-        req.flash('success', 'Registered successfully. Please sign in.');
-        res.redirect('/');
-      }
-    });
+  var user = await User.findOne({email: req.body.email});
+  console.log('USER???', user);
+  if (user) {
+    req.flash('danger', 'Email address already exists.');
+    return res.redirect('back');
+  }
+  user = new User({
+    name: req.body.name,
+    email: req.body.email,
   });
-});
+  user.password = await user.generateHash(req.body.password);
+  await user.save();
+  req.flash('success', 'Registered successfully. Please sign in.');
+  res.redirect('/');
+}));
 
 module.exports = router;

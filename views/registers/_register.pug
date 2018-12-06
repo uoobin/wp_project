@@ -1,0 +1,18 @@
+.content= register.content
+//.tags.badges
+  each tag in register.tags
+    span.badge.badge-phill.badge-secondary= tag
+    |
+// 
+.row
+  .col-sm
+    .numbers.
+      #[span.number.num-votes= register.numLikes] likes,
+      #[span.number.num-comments= register.numComments] comments,
+      #[span.number.num-views= register.numReads] reads
+  .col-sm
+    .author
+      | register on #{moment(register.createdAt).format('YYYY-MM-DD')}
+      if register.author
+        | 
+        | by #[a(href=`/users/${register.author.id}`)= register.author.name]

@@ -1,0 +1,24 @@
+.form-group
+  label(for="name") Name
+  input.form-control(type="text", name="name", placeholder="What's your contest name?", value=register.name)
+.form-group
+  label(for="sponsor") Sponsor
+  input.form-control(type="text", name="sponsor", placeholder="Who host the contest?", value=register.sponsor)
+.form-group
+  label(for="field") Field
+  input.form-control(type="text", name="field", placeholder="What's the field?", value=register.field)
+.form-group
+  label(for="participate") Subject to Participate 
+  textarea.form-control(name="content", rows="5")= register.content
+.form-group
+  label(for="period") Period
+  input.form-control(type="text", name="period", value=register.period)
+.form-group
+  label(for="outline") Outline
+  textarea.form-control(name="content", rows="7")= register.content
+.form-group
+  label(for="manager") Manager
+  input.form-control(type="text", name="manager", value=register.manager)
+.form-group
+  label(for="contact") Contact
+  input.form-control(type="text", name="contact", value=register.contact)

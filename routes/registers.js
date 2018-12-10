@@ -114,6 +114,4 @@ router.post('/:id/comments', needAuth, catchErrors(async (req, res, next) => {
   res.redirect(`/registers/${req.params.id}`);
 }));
 
-
-
 module.exports = router;

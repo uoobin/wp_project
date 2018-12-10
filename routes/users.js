@@ -4,12 +4,12 @@ const router = express.Router();
 const catchErrors = require('../lib/async-error');
 
 function needAuth(req, res, next) {
-    if (req.session.user) {
-      next();
-    } else {
-      req.flash('danger', 'Please signin first.');
-      res.redirect('/signin');
-    }
+  if (req.isAuthenticated()) {
+    next();
+  } else {
+    req.flash('danger', 'Please signin first.');
+    res.redirect('/signin');
+  }
 }
 
 function validateForm(form, options) {
@@ -34,91 +34,61 @@ function validateForm(form, options) {
     return 'Passsword do not match.';
   }
 
-  if (form.password.length < 8) {
-    return 'Password must be at least 8 characters.';
+  if (form.password.length < 6) {
+    return 'Password must be at least 6 characters.';
   }
 
   return null;
 }
 
 /* GET users listing. */
-router.get('/', needAuth, (req, res, next) => { // get 처리 function (==>)
-  User.find({}, function(err, users) {
-    if (err) {
-      return next(err); //에러 처리는 꼭 이렇게!
-    }
-    res.render('users/index', {users: users}); //db.users.find() 한 것, asynchronized하게 받음!
-  }); // TODO: pagination?
-});
+router.get('/', needAuth, catchErrors(async (req, res, next) => {
+  const users = await User.find({});
+  res.render('users/index', {users: users});
+}));
 
 router.get('/new', (req, res, next) => {
   res.render('users/new', {messages: req.flash()});
 });
 
-router.get('/:id/edit', needAuth, (req, res, next) => {
-  User.findById(req.params.id, function(err, user) {
-    if (err) {
-      return next(err);
-    }
-    res.render('users/edit', {user: user});
-  });
-});
+router.get('/:id/edit', needAuth, catchErrors(async (req, res, next) => {
+  const user = await User.findById(req.params.id);
+  res.render('users/edit', {user: user});
+}));
 
-router.put('/:id', needAuth, (req, res, next) => {
-  var err = validateForm(req.body);
+router.put('/:id', needAuth, catchErrors(async (req, res, next) => {
+  const err = validateForm(req.body);
   if (err) {
     req.flash('danger', err);
     return res.redirect('back');
   }
 
-  User.findById({_id: req.params.id}, function(err, user) {
-    if (err) {
-      return next(err);
-    }
-    if (!user) {
-      req.flash('danger', 'Not exist user.');
-      return res.redirect('back');
-    }
+  const user = await User.findById({_id: req.params.id});
+  if (!user) {
+    req.flash('danger', 'Not exist user.');
+    return res.redirect('back');
+  }
 
-    if (user.password !== req.body.current_password) {
-      req.flash('danger', 'Password is incorrect');
-      return res.redirect('back');
-    }
+  if (!await user.validatePassword(req.body.current_password)) {
+    req.flash('danger', 'Current password invalid.');
+    return res.redirect('back');
+  }
 
-    user.name = req.body.name;
-    user.email = req.body.email;
-    if (req.body.password) {
-      user.password = req.body.password;
-    }
+  user.name = req.body.name;
+  user.email = req.body.email;
+  if (req.body.password) {
+    user.password = await user.generateHash(req.body.password);
+  }
+  await user.save();
+  req.flash('success', 'Updated successfully.');
+  res.redirect('/users');
+}));
 
-    user.save(function(err) {
-      if (err) {
-        return next(err);
-      }
-      req.flash('success', 'Updated successfully.');
-      res.redirect('/users');
-    });
-  });
-});
-
-router.delete('/:id', needAuth, (req, res, next) => {
-  User.findOneAndRemove({_id: req.params.id}, function(err) {
-    if (err) {
-      return next(err);
-    }
-    req.flash('success', 'Deleted Successfully.');
-    res.redirect('/users');
-  });
-});
-
-router.get('/:id', (req, res, next) => {
-  User.findById(req.params.id, function(err, user) {
-    if (err) {
-      return next(err);
-    }
-    res.render('users/show', {user: user});
-  });
-});
+router.delete('/:id', needAuth, catchErrors(async (req, res, next) => {
+  const user = await User.findOneAndRemove({_id: req.params.id});
+  req.flash('success', 'Deleted Successfully.');
+  res.redirect('/users');
+}));
 
 router.get('/:id', catchErrors(async (req, res, next) => {
   const user = await User.findById(req.params.id);

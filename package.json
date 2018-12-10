@@ -6,7 +6,8 @@
     "start": "nodemon ./bin/www"
   },
   "engines": {
-    "node": "8.12.0"
+    "node": "8.12.0",
+    "start": "nodemon app.js"
   },
   "dependencies": {
     "async-error-catcher": "^1.0.1",

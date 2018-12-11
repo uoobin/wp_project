@@ -1,23 +1,15 @@
 .comment.card
   .numbers.like-badge
     .number
-      span.number.num-votes= register.numLikes
+      span.number.num-likes= comment.numLikes
     .button
-      a.like(href='#', data-id=comment.id)
+      a.like.comment-like-btn(href='#', data-id=comment.id)
         i.fa.fa-thumbs-up
         | 
         | Like
-    .numbers.hate-badge
-    .number
-      span.number.num-votes= register.numHates
-    .button
-      a.hate(href='#', data-id=comment.id)
-        i.fa.fa-thumbs-down
-        |
-        | Hate
 
   .card-body
-    .content= comment.content
+    .comment= comment.comment
   .row.card-body
     .col-sm
     .col-sm.text-right

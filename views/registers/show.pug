@@ -5,6 +5,14 @@ block content
     h1.main-title= register.name
 
     .register.show
+      .name= register.name
+      .sponsor= register.sponsor
+      .field= register.field
+      .participate= register.participate
+      .period= register.period
+      .content= register.content
+      .manager= register.manager
+      .contact= register.contact
       include _register
 
       .buttons
@@ -18,9 +26,9 @@ block content
             | 
             a.btn.btn-outline-danger.need-confirm-btn(href=`/registers/${register.id}?_method=delete`) Delete
       
-    if register.numAnswers > 0
+    if register.numComments > 0
       hr
-      h3 #{register.numAnswers} Comment(s)
+      h3 #{register.numComments} Comment(s)
       .comments.show
         each comment in comments
           include _comment
@@ -29,7 +37,7 @@ block content
       form(action=`/registers/${register.id}/comments`, method='POST')
         .form-group
           label(for='comment') Your Comment
-          textarea.form-control(name="content", rows="5")
+          textarea.form-control(name="comment", rows="5")
         button.btn.btn-secondary(type="submit") Post Your Comment
 
 

@@ -1,6 +1,5 @@
 const express = require('express');
 const Register = require('../models/register');
-const User = require('../models/user'); 
 const Comment = require('../models/comment'); 
 const catchErrors = require('../lib/async-error');
 
@@ -8,12 +7,12 @@ const router = express.Router();
 
 // 동일한 코드가 users.js에도 있습니다. 이것은 나중에 수정합시다.
 function needAuth(req, res, next) {
-    if (req.isAuthenticated()) {
-      next();
-    } else {
-      req.flash('danger', 'Please signin first.');
-      res.redirect('/signin');
-    }
+  if (req.isAuthenticated()) {
+    next();
+  } else {
+    req.flash('danger', 'Please signin first.');
+    res.redirect('/signin');
+  }
 }
 
 /* GET registers listing. */

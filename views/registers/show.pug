@@ -5,14 +5,14 @@ block content
     h1.main-title= register.name
 
     .register.show
-      .name= register.name
-      .sponsor= register.sponsor
-      .field= register.field
-      .participate= register.participate
-      .period= register.period
-      .content= register.content
-      .manager= register.manager
-      .contact= register.contact
+      .name= "이름: " + register.name
+      .sponsor= "주최사: " + register.sponsor
+      .field= "분야: " + register.field
+      .participate= "응시대상: " + register.participate
+      .period= "접수기간: " + register.period
+      .content= "공모요강: " + register.content
+      .manager= "담당자: " + register.manager
+      .contact= "연락처: " + register.contact
       include _register
 
       .buttons

@@ -20,7 +20,7 @@ router.post('/signin', function(req, res, next) {
       req.flash('danger', 'Invalid emailaddress.');
       res.redirect('back');
     } else if (user.password !== req.body.password){
-      rea.flash('danger', 'Invalid password.')
+      req.flash('danger', 'Invalid password.');
       res.redirect('back');
     } else {
       req.session.user = user;

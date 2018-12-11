@@ -26,10 +26,15 @@ router.get('/:id', catchErrors(async (req, res, next) => {
 // Create
 router.post('', catchErrors(async (req, res, next) => {
   var register = new Register({
-    title: req.body.title,
+    name: req.body.name,
     author: req.user._id,
+    sponsor: req.body.sponsor,
+    field: req.body.field,
+    participate: req.body.participate,
+    period: req.body.period,
     content: req.body.content,
-    tags: req.body.tags.map(e => e.trim()),
+    manager: req.body.manager,
+    contact: req.body.contact,
   });
   await register.save();
   res.json(register)
@@ -44,9 +49,14 @@ router.put('/:id', catchErrors(async (req, res, next) => {
   if (register.author && register.author._id != req.user._id) {
     return next({status: 403, msg: 'Cannot update'});
   }
-  register.title = req.body.title;
+  register.name = req.body.name;
+  register.sponsor = req.body.sponsor;
+  register.field = req.body.field;
+  register.participate = req.body.participate;
+  register.period = req.body.period;
   register.content = req.body.content;
-  register.tags = req.body.tags;
+  register.manager = req.body.manager;
+  register.contact = req.body.contact;
   await register.save();
   res.json(register);
 }));

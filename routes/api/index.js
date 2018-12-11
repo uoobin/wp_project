@@ -26,14 +26,14 @@ router.post('/registers/:id/like', catchErrors(async (req, res, next) => {
   if (!likeLog) {
     register.numLikes++;
     await Promise.all([
-        register.save(),
+      register.save(),
       LikeLog.create({author: req.user._id, register: register._id})
     ]);
   }
   return res.json(register);
 }));
 
-// Like for Answer
+// Like for comment
 router.post('/comments/:id/like', catchErrors(async (req, res, next) => {
   const comment = await Comment.findById(req.params.id);
   comment.numLikes++;

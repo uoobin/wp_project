@@ -9,12 +9,12 @@
   input.form-control(type="text", name="field", placeholder="What's the field?", value=register.field)
 .form-group
   label(for="participate") Subject to Participate 
-  textarea.form-control(name="content", rows="5")= register.content
+  textarea.form-control(name="participate", rows="5")= register.participate
 .form-group
   label(for="period") Period
   input.form-control(type="text", name="period", value=register.period)
 .form-group
-  label(for="outline") Outline
+  label(for="content") Outline
   textarea.form-control(name="content", rows="7")= register.content
 .form-group
   label(for="manager") Manager

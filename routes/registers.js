@@ -33,7 +33,7 @@ router.get('/', catchErrors(async (req, res, next) => {
     populate: 'author', 
     page: page, limit: limit
   });
-  res.render('registers/index', {registers: registers, regist: req.regist});
+  res.render('registers/index', {registers: registers, term: term, regist: req.regist});
 }));
 
 router.get('/new', needAuth, (req, res, next) => {
@@ -61,9 +61,14 @@ router.put('/:id', catchErrors(async (req, res, next) => {
     req.flash('danger', 'Not exist contest');
     return res.redirect('back');
   }
-  register.title = req.body.name;
+  register.name = req.body.name;
+  register.sponsor = req.body.sponsor;
+  register.field = req.body.field;
+  register.participate = req.body.participate;
+  register.period = req.body.period;
   register.content = req.body.content;
-  register.tags = req.body.tags.split(" ").map(e => e.trim());
+  register.manager = req.body.manager;
+  register.contact = req.body.contact;
 
   await register.save();
   req.flash('success', 'Successfully updated');
@@ -83,8 +88,9 @@ router.post('/', needAuth, catchErrors(async (req, res, next) => {
     author: user._id,
     sponsor: req.body.sponsor,
     field: req.body.field,
-    content: req.body.content,
+    participate: req.body.participate,
     period: req.body.period,
+    content: req.body.content,
     manager: req.body.manager,
     contact: req.body.contact
   });
@@ -94,7 +100,7 @@ router.post('/', needAuth, catchErrors(async (req, res, next) => {
 }));
 
 router.post('/:id/comments', needAuth, catchErrors(async (req, res, next) => {
-  const user = req.session.user;
+  const user = req.user;
   const register = await Register.findById(req.params.id);
 
   if (!register) {
@@ -105,7 +111,7 @@ router.post('/:id/comments', needAuth, catchErrors(async (req, res, next) => {
   var comment = new Comment({
     author: user._id,
     register: register._id,
-    content: req.body.content
+    comment: req.body.comment
   });
   await comment.save();
   register.numComments++;

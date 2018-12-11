@@ -16,8 +16,11 @@ router.post('/signin', function(req, res, next) {
   User.findOne({email: req.body.email}, function(err, user) {
     if (err) {
       res.render('error', {message: "Error", error: err});
-    } else if (!user || user.password !== req.body.password) {
-      req.flash('danger', 'Invalid emailaddress or password.');
+    } else if (!user) {
+      req.flash('danger', 'Invalid emailaddress.');
+      res.redirect('back');
+    } else if (user.password !== req.body.password){
+      rea.flash('danger', 'Invalid password.')
       res.redirect('back');
     } else {
       req.session.user = user;

@@ -14,7 +14,7 @@ var schema = new Schema({
 });
 
 schema.methods.generateHash = function(password) {
-  return bcrypt.hash(password, 10); // return Promise
+  return bcrypt.hash(password, 8); // return Promise
 };
 
 schema.methods.validatePassword = function(password) {

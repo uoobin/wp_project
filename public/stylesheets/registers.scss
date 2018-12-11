@@ -46,7 +46,7 @@
 
   .comment {
     position: relative;
-    .like-badge {
+    .like-badge, .dislike-badge {
       text-align: center;
       padding: 0.5em;
       position: absolute;
@@ -65,7 +65,7 @@
   }
 }
 
-.register-like-btn, .comment-like-btn {
+.register-like-btn, .comment-like-btn, .register-dislike-btn, .comment-dislike-btn {
   .for-loading {display: none;}
   cursor: pointer; 
 

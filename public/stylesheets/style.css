@@ -125,24 +125,30 @@ a:hover {
     position: absolute; }
     .show .comment .like-badge .button {
       font-size: 0.8em; }
+  .show .comment .dislike-badge {
+    text-align: center;
+    padding: 0.5em;
+    position: absolute; }
+      .show .comment .dislike-badge .button {
+        font-size: 0.8em; }
   .show .comment .card-body {
     padding-left: 4em; }
   .show .comment .comment {
     margin-bottom: 0.5em;
     color: #bbb; }
 
-.register-like-btn, .comment-like-btn {
+.register-like-btn, .comment-like-btn, .register-dislike-btn, .comment-dislike-btn {
   cursor: pointer; }
-  .register-like-btn .for-loading, .comment-like-btn .for-loading {
+  .register-like-btn .for-loading, .comment-like-btn .for-loading, .register-dislike-btn .for-loading, .comment-dislike-btn .for-loading {
     display: none; }
-  .register-like-btn.loading, .comment-like-btn.loading {
+  .register-like-btn.loading, .comment-like-btn.loading, .register-dislike-btn.loading, .comment-dislike-btn.loading{
     filter: opacity(30%);
     cursor: wait; }
-    .register-like-btn.loading > span, .comment-like-btn.loading > span {
+    .register-like-btn.loading > span, .comment-like-btn.loading > span, .register-dislike-btn.loading > span, .comment-dislike-btn.loading > span {
       display: none; }
-    .register-like-btn.loading .for-loading, .comment-like-btn.loading .for-loading {
+    .register-like-btn.loading .for-loading, .comment-like-btn.loading .for-loading, .register-dislike-btn.loading .for-loading, .comment-dislike-btn.loading .for-loading {
       display: inline-block; }
-  .register-like-btn.disabled, .comment-like-btn.disabled {
+  .register-like-btn.disabled, .comment-like-btn.disabled, .register-dislike-btn.disabled, .comment-dislike-btn.disabled {
     color: #bbb;
     cursor: default; }
 

@@ -10,7 +10,17 @@
 
   .card-body
     .comment= comment.comment
-  .row.card-body
+  .row-sm-8
+    .col-sm.text-left
+      .numbers.dislike-badge
+        .number
+          span.number.num-dislikes= comment.numDisLikes
+        .button
+          a.dislike.comment-dislike-btn(href='#', data-id=comment.id)
+            i.fa.fa-thumbs-down
+            |
+            | DisLike
+  .row-sm-4.card-body
     .col-sm
     .col-sm.text-right
       .author

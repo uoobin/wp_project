@@ -1,7 +1,8 @@
 const express = require('express');
 const Register = require('../../models/register'); 
 const Comment = require('../../models/comment'); 
-const LikeLog = require('../../models/like-log'); 
+const LikeLog = require('../../models/like-log');
+const DisLikeLog = require('../../models/dislike-log'); 
 const catchErrors = require('../../lib/async-error');
 
 const router = express.Router();
@@ -37,6 +38,39 @@ router.post('/registers/:id/like', catchErrors(async (req, res, next) => {
 router.post('/comments/:id/like', catchErrors(async (req, res, next) => {
   const comment = await Comment.findById(req.params.id);
   comment.numLikes++;
+  await comment.save();
+  return res.json(comment);
+}));
+
+router.use((err, req, res, next) => {
+  res.status(err.status || 500);
+  res.json({
+    status: err.status,
+    msg: err.msg || err
+  });
+});
+
+// DisLike for Register
+router.post('/registers/:id/dislike', catchErrors(async (req, res, next) => {
+  const register = await Register.findById(req.params.id);
+  if (!register) {
+    return next({status: 404, msg: 'Not exist register'});
+  }
+  var dislikeLog = await DisLikeLog.findOne({author: req.user._id, register: register._id});
+  if (!dislikeLog) {
+    register.numDisLikes++;
+    await Promise.all([
+      register.save(),
+      DisLikeLog.create({author: req.user._id, register: register._id})
+    ]);
+  }
+  return res.json(register);
+}));
+
+// DisLike for comment
+router.post('/comments/:id/dislike', catchErrors(async (req, res, next) => {
+  const comment = await Comment.findById(req.params.id);
+  comment.numDisLikes++;
   await comment.save();
   return res.json(comment);
 }));

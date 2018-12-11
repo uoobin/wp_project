@@ -14,9 +14,11 @@
   .content {
     color: #2a2c2f;
   }
-
-
+  .tags {
+    margin: 0.5em 0;
+  }
 }
+
 .author {
   text-align: right;
   font-size: 0.8em;
@@ -64,5 +66,22 @@
       margin-bottom: 0.5em;
       color: #bbb;
     }
+  }
+}
+
+.register-like-btn, .comment-like-btn {
+  .for-loading {display: none;}
+  cursor: pointer; 
+
+  &.loading {
+    & > span {display: none;}
+    .for-loading {display: inline-block;}
+    filter: opacity(30%);
+    cursor: wait;
+  }
+
+  &.disabled {
+    color: #bbb;
+    cursor: default;
   }
 }

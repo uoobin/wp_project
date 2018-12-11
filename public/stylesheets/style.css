@@ -135,4 +135,19 @@ a:hover {
     margin-bottom: 0.5em;
     color: #bbb; }
 
+.register-like-btn, .comment-like-btn {
+  cursor: pointer; }
+  .register-like-btn .for-loading, .comment-like-btn .for-loading {
+    display: none; }
+  .register-like-btn.loading, .comment-like-btn.loading {
+    filter: opacity(30%);
+    cursor: wait; }
+    .register-like-btn.loading > span, .comment-like-btn.loading > span {
+      display: none; }
+    .register-like-btn.loading .for-loading, .comment-like-btn.loading .for-loading {
+      display: inline-block; }
+  .register-like-btn.disabled, .comment-like-btn.disabled {
+    color: #bbb;
+    cursor: default; }
+
 /*# sourceMappingURL=style.css.map */

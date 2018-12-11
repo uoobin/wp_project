@@ -49,6 +49,7 @@ router.get('/:id', catchErrors(async (req, res, next) => {
   const register = await Register.findById(req.params.id).populate('author');
   const comments = await Comment.find({register: register.id}).populate('author');
   register.numReads++;    // TODO: 동일한 사람이 본 경우에 Read가 증가하지 않도록???
+
   await register.save();
   res.render('registers/show', {register: register, comments: comments});
 }));
@@ -62,6 +63,7 @@ router.put('/:id', catchErrors(async (req, res, next) => {
   }
   register.title = req.body.name;
   register.content = req.body.content;
+  register.tags = req.body.tags.split(" ").map(e => e.trim());
 
   await register.save();
   req.flash('success', 'Successfully updated');

@@ -8,31 +8,29 @@ block content
       include _register
 
       .buttons
-        button.btn.btn-primary #[i.fa.fa-thumbs-up] Like
-        | 
-        a.btn.btn-outline-secondary(href=`/registers/${register.id}/edit`) Edit
-        | 
-        a.btn.btn-outline-danger.delete-btn(href="#", data-url=`/registers/${register.id}?_method=delete`) Delete
+        if currentUser
+          button.btn.btn-secondary.register-like-btn(data-id=register.id) 
+            span.for-loading #[i.fa.fa-spin.fa-refresh] Loading
+            span #[i.fa.fa-thumbs-up] Like
+          if register.author && register.author.id == currentUser.id
+            | 
+            a.btn.btn-outline-secondary(href=`/registers/${register.id}/edit`) Edit
+            | 
+            a.btn.btn-outline-danger.need-confirm-btn(href=`/registers/${register.id}?_method=delete`) Delete
       
-    if register.numComments > 0
+    if register.numAnswers > 0
       hr
-      h3 #{register.numComments} Comment(s)
+      h3 #{register.numAnswers} Comment(s)
       .comments.show
         each comment in comments
           include _comment
 
-    form(action=`/registers/${register.id}/comments`, method='POST')
-      .form-group
-        label(for='comment') Your Comment
-        textarea.form-control(name="content", rows="5")
-      button.btn.btn-dark(type="submit") Post Your Comment
+    if currentUser
+      form(action=`/registers/${register.id}/comments`, method='POST')
+        .form-group
+          label(for='comment') Your Comment
+          textarea.form-control(name="content", rows="5")
+        button.btn.btn-secondary(type="submit") Post Your Comment
 
-  script.
-    $(function() {
-      $('.delete-btn').click(function() {
-        if (confirm('Are you sure to delete?')) {
-          location = $(this).data('url');
-        }
-        return false;
-      });
-    });
+
+  script(src='/javascripts/register_client.js')

@@ -67,6 +67,7 @@ router.put('/:id', catchErrors(async (req, res, next) => {
   register.participate = req.body.participate;
   register.period = req.body.period;
   register.content = req.body.content;
+  register.award = req.body.award;
   register.manager = req.body.manager;
   register.contact = req.body.contact;
 
@@ -91,6 +92,7 @@ router.post('/', needAuth, catchErrors(async (req, res, next) => {
     participate: req.body.participate,
     period: req.body.period,
     content: req.body.content,
+    award: req.body.award,
     manager: req.body.manager,
     contact: req.body.contact
   });

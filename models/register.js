@@ -10,6 +10,7 @@ var schema = new Schema({
   participate: {type: String, trim: true, required: true},
   period: {type: String, trim: true, required: true},
   content: {type: String, trim: true, required: true},
+  award: {type: String, trim: true, required: true},
   manager: {type: String, trim: true, required: true},
   contact: {type: String, trim: true, required: true},
   numLikes: {type: Number, default: 0},

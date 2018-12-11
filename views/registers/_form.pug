@@ -17,6 +17,9 @@
   label(for="content") Outline
   textarea.form-control(name="content", rows="7")= register.content
 .form-group
+  label(for="award") Award
+  input.form-control(type="text", name="award", value=register.award)
+.form-group
   label(for="manager") Manager
   input.form-control(type="text", name="manager", value=register.manager)
 .form-group

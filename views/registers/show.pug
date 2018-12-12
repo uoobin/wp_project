@@ -28,7 +28,7 @@ block content
           |
           if register.author && register.author.id == currentUser.id
             | 
-            a.btn.btn-outline-secondary(href=`/registers/${register.id}/edit`) Edit
+            a.btn.btn-outline-primary(href=`/registers/${register.id}/edit`) Edit
             | 
             a.btn.btn-outline-danger.need-confirm-btn(href=`/registers/${register.id}?_method=delete`) Delete
       
